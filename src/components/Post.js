@@ -1,44 +1,27 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 
 class Post extends Component {
-    state = {
-        id: null,
-        posts: {},
-    };
-    componentDidMount() {
-        console.log(this.props);
-        let id = this.props.match.params.post_id; //in App.js, we used :post_id
-        this.setState({
-            id: id,
-        });
-        let link = "https://jsonplaceholder.typicode.com/posts/" + id;
-        axios
-            .get(link)
-            .then((res) => {
-                this.setState({
-                    posts: res.data,
-                });
-                console.log(this.state);
-            })
-            .catch((err) => {
-                console.log("error: ", err);
-            });
-    }
     render() {
-        const posts = this.state.posts;
-        return (
-            <div className="container">
-                <h4 className="center">ID: {this.state.id}</h4>
-                <div className="post card" key={posts.id}>
-                    <div className="card-content">
-                        <span className="card-title">{posts.title}</span>
-                        <p>{posts.body}</p>
-                    </div>
+        const post = this.props.post ? (
+            <div className="post card" key={this.props.post.id}>
+                <div className="card-content">
+                    <span className="card-title">{this.props.post.title}</span>
+                    <p>{this.props.post.body}</p>
                 </div>
             </div>
+        ) : (
+            <div className="center">Loading post...</div>
         );
+        return <div className="container">{post}</div>;
     }
 }
 
-export default Post;
+const mapStateToProps = (state, ownProps) => {
+    let id = ownProps.match.params.post_id;
+    return {
+        post: state.posts.find((post) => post.id === id),
+    };
+};
+
+export default connect(mapStateToProps)(Post);
