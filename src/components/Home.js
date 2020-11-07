@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Logo from "../logo192.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 // $ npm install react-redux
 
 class Home extends Component {
