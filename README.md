@@ -1,2 +1,2 @@
-# Todo List
-Simple Todo List using React
+# React Redux
+Github Repo to learn more about React Redux
